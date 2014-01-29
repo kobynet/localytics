@@ -1,0 +1,78 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath project.ver.androidPlugin
+    }
+}
+
+apply plugin: 'android-library'
+
+android {
+    buildToolsVersion project.ver.buildTools
+    compileSdkVersion project.ver.compileSdk
+
+    defaultConfig {
+        targetSdkVersion project.ver.targetSdk
+    }
+}
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+version = "1.0.0"
+group = "com.eyeem.localytics"
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+signing {
+    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: sonatypeRepo) {
+            authentication(userName: sonatypeUsername,
+                    password: sonatypePassword)
+        }
+
+        pom.project {
+            name 'Localytics'
+            packaging 'aar'
+            description 'Localytics Android SDK'
+            url 'http://www.localytics.com/docs/sdks-integration-guides/sdks/'
+
+            scm {
+                url 'scm:git@github.com:eyeem/localytics.git'
+                connection 'scm:git@github.com:eyeem/localytics.git'
+                developerConnection 'scm:git@github.com:eyeem/localytics.git'
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'localytics'
+                    name 'localytics'
+                    email 'support@localytics.com'
+                }
+            }
+        }
+    }
+}
