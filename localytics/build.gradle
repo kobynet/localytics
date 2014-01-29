@@ -17,6 +17,11 @@ android {
     defaultConfig {
         targetSdkVersion project.ver.targetSdk
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 apply plugin: 'maven'
