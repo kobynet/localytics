@@ -89,7 +89,7 @@ import android.text.format.DateUtils;
      * For example, if the user opens an app, presses home, and opens the app again in less than this number of milliseconds, that
      * will count as one session rather than two sessions.
      */
-    public static final long SESSION_EXPIRATION = 15 * DateUtils.SECOND_IN_MILLIS;
+    public static final long SESSION_EXPIRATION = 60 * DateUtils.SECOND_IN_MILLIS;
 
     /**
      * logcat log tag
