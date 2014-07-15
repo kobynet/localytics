@@ -3341,7 +3341,7 @@ public class LocalyticsSession
                     /*
                      * 5xx status codes indicate a server error, so upload should be reattempted
                      */
-                    if (responseCode >= 500 && responseCode <= 599)
+                    if ((responseCode >= 500 && responseCode <= 599) || responseCode == 408)
                     {
                         return false;
                     }
@@ -3417,7 +3417,7 @@ public class LocalyticsSession
                     /*
                      * 5xx status codes indicate a server error, so upload should be reattempted
                      */
-                    if (statusCode >= 500 && statusCode <= 599)
+                    if ((responseCode >= 500 && responseCode <= 599) || responseCode == 408)
                     {
                         return false;
                     }
